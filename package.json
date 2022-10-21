@@ -1,0 +1,41 @@
+{
+  "name": "coin.gg",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "start": "next start",
+    "dev:pm2": "pm2 restart ecosystem.config.json --only app-dev --env development",
+    "start:pm2": "npm run build && pm2 start ecosystem.config.json --only app-prod --env production",
+    "build": "next build",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.9.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "axios": "^0.27.2",
+    "bootstrap-icons": "^1.8.2",
+    "fs": "^0.0.1-security",
+    "js-cookie": "^3.0.1",
+    "lodash": "^4.17.21",
+    "lodash.clonedeep": "^4.5.0",
+    "moment": "^2.29.3",
+    "net": "^1.0.2",
+    "next": "12.1.6",
+    "next-build-id": "^3.0.0",
+    "next-i18next": "^11.0.0",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "request-promise": "^4.2.6",
+    "sass": "^1.51.0",
+    "socket.io-client": "^4.5.0",
+    "styled-components": "^5.3.5",
+    "tls": "^0.0.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.17.10",
+    "eslint": "8.15.0",
+    "eslint-config-next": "12.1.6"
+  }
+}
