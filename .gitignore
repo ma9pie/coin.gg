@@ -26,7 +26,12 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env*.local
+.env.development
+.env.production
 
 # vercel
 .vercel
+
+# tradingview chart library
+/public/static/charting_library/*
+/public/static/datafeeds/*
