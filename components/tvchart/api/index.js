@@ -1,11 +1,3 @@
-/**
- * [전체적인 흐름 순서]
- * 1. onReady
- * 2. getServerTime
- * 3. resolveSymbol
- * 4. getBars
- * 5. subscribeBars
- */
 import historyProvider from "./historyProvider";
 import stream from "./stream";
 
@@ -30,11 +22,10 @@ const methods = {
     onResolveErrorCallback,
     extension
   ) => {
-    var split_data = symbolName.split("-");
-    var symbol_stub = {
-      name: split_data[0] + "-" + split_data[1],
-      ticker: split_data[0] + "-" + split_data[1],
-      description: split_data[0] + "-" + split_data[1],
+    const symbol_stub = {
+      name: symbolName,
+      ticker: symbolName,
+      description: symbolName,
       type: "crypto",
       session: "24x7", // 거래시간
       exchange: "Cashierest",
@@ -61,26 +52,13 @@ const methods = {
     onHistoryCallback,
     onErrorCallback
   ) => {
-    console.log("=====getBars running");
-    historyProvider
-      .getBars(
-        symbolInfo,
-        resolution,
-        periodParams,
-        onHistoryCallback,
-        onErrorCallback
-      )
-      .then((bars) => {
-        if (bars.length) {
-          onHistoryCallback(bars, { noData: false });
-        } else {
-          onHistoryCallback(bars, { noData: true });
-        }
-      })
-      .catch((err) => {
-        console.log({ err });
-        onErrorCallback(err);
-      });
+    historyProvider.getBars(
+      symbolInfo,
+      resolution,
+      periodParams,
+      onHistoryCallback,
+      onErrorCallback
+    );
   },
 
   // 심볼에 대한 실시간 업데이트

@@ -1,0 +1,11 @@
+:root:not(.theme-dark) {
+  --tv-color-platform-background: #f0f0f0;
+  --tv-color-pane-background: #ffffff;
+}
+
+.theme-dark:root {
+  --tv-color-platform-background: #3b3b3b;
+  --tv-color-pane-background: #1d1d21;
+  --tv-color-toolbar-button-text-active: #fbd538;
+  --tv-color-toolbar-button-text-active-hover: #fbd538;
+}

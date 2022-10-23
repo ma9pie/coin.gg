@@ -1,31 +1,32 @@
-import React, { useEffect, useRef } from "react"
-import styles from "./index.module.css"
-import { widget, version } from "public/static/charting_library"
-import customOverrides from "./customOverrides.json"
+import Datafeed from "./api";
+import historyProvider from "./api/historyProvider.js";
+import styled from "@emotion/styled";
+import { widget } from "public/static/charting_library";
+import customOverrides from "public/static/customOverrides.json";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import Loading from "@/components/common/Loading";
 
-// import Datafeed from "./api/";
-
-function getLanguageFromURL() {
-  const regex = new RegExp("[\\?&]lang=([^&#]*)")
-  const results = regex.exec(window.location.search)
-
-  return results === null
-    ? null
-    : decodeURIComponent(results[1].replace(/\+/g, " "))
-}
+let tvWidget;
+let interval =
+  localStorage.getItem("tradingview.chart.lastUsedTimeBasedResolution") || "60";
 
 function Tvchart(props) {
-  const ref = useRef()
+  let overrides = { ...customOverrides };
+  const ref = useRef();
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 차트 생성
   useEffect(() => {
     const widgetOptions = {
       symbol: props.symbol,
-      datafeed: new Datafeeds.UDFCompatibleDatafeed(props.datafeedUrl),
+      datafeed: Datafeed,
       interval: props.interval,
+      time_frames: props.time_frames,
       container: ref.current,
       library_path: props.libraryPath,
-      locale: getLanguageFromURL() || "ko",
-      disabled_features: props.disabled_features,
+      locale: "ko",
+      timezone: props.timezone,
       charts_storage_url: props.chartsStorageUrl,
       charts_storage_api_version: props.chartsStorageApiVersion,
       client_id: props.clientId,
@@ -38,54 +39,65 @@ function Tvchart(props) {
       disabled_features: props.disabled_features,
       enabled_features: props.enabled_features,
       favorites: props.favorites,
-      overrides: customOverrides,
+      overrides: overrides,
+      custom_css_url: "../chart_theme.css",
+    };
+    tvWidget = new widget(widgetOptions);
+  }, [props.reloadChart]);
+
+  // 심볼 변경
+  useEffect(() => {
+    if (!tvWidget) return;
+    if (props.symbol) {
+      tvWidget.onChartReady(() => {
+        tvWidget.activeChart().setSymbol(props.symbol);
+      });
     }
+  }, [props.symbol]);
 
-    const tvWidget = new widget(widgetOptions)
-
+  // 테마 변경
+  useEffect(() => {
+    if (!tvWidget) return;
     tvWidget.onChartReady(() => {
-      tvWidget.headerReady().then(() => {
-        const button = tvWidget.createButton()
-        button.setAttribute("title", "Click to show a notification popup")
-        button.classList.add("apply-common-tooltip")
-        button.addEventListener("click", () =>
-          tvWidget.showNoticeDialog({
-            title: "COIN.GG",
-            body: "코인거래소",
-            callback: () => {},
-          })
-        )
-        button.innerHTML = "COIN.GG"
-        const order = tvWidget
-          .chart()
-          .createOrderLine()
-          .setText("매수 평균가")
-          .setLineLength(3)
-          .setLineStyle(0)
-          .setLineColor("#fcd034")
-          .setBodyBorderColor("#fcd034")
-          .setBodyBackgroundColor("#fcd034")
-          .setBodyTextColor("#21252f")
-          .setQuantity()
-        order.setPrice(117)
-      })
-    })
-  }, [props])
+      if (props.theme) {
+        tvWidget.changeTheme(props.theme).then(() => {
+          tvWidget.activeChart().applyOverrides(overrides);
+        });
+      }
+    });
+  }, []);
 
-  return <div ref={ref} className={styles.tradingviewChart}></div>
+  // 차트 로딩
+  useEffect(() => {
+    if (!tvWidget) return;
+    tvWidget.onChartReady(() => {
+      setIsLoading(false);
+    });
+  }, []);
+
+  return (
+    <Wrapper>
+      {isLoading && <Loading></Loading>}
+      <ChartContainer
+        ref={ref}
+        display={isLoading ? "none" : "block"}
+      ></ChartContainer>
+    </Wrapper>
+  );
 }
 
-export default Tvchart
+export default React.memo(Tvchart);
 
 Tvchart.defaultProps = {
   symbol: "BTCKRW",
-  interval: "4h",
-  datafeedUrl: process.env.NEXT_PUBLIC_DATA_FEED_URL,
+  interval: interval,
+  datafeedUrl: process.env.NEXT_PUBLIC_CHART_URL,
   libraryPath: "/static/charting_library/",
   chartsStorageUrl: "https://saveload.tradingview.com",
   chartsStorageApiVersion: "1.1",
-  clientId: "coin.gg",
+  clientId: "cashierest.com",
   userId: "public_user_id",
+  timezone: "Asia/Seoul",
   fullscreen: false,
   autosize: true,
   studies_overrides: {
@@ -94,20 +106,38 @@ Tvchart.defaultProps = {
   },
   drawings_access: { type: "black", tools: [{ name: "Regression Trend" }] },
   disabled_features: [
-    "header_symbol_search",
-    "header_screenshot",
-    "header_saveload",
-    "header_interval_dialog_button",
-    "timeframes_toolbar",
-    "volume_force_overlay",
-    // "use_localstorage_for_settings",
-    "save_chart_properties_to_local_storage",
+    "header_symbol_search", // 헤더 심볼검색 표시
+    "header_screenshot", // 헤더 스크린샷 표시
+    "header_saveload", // 헤더 저장 표시
+    "countdown", // 가격선 카운트다운 표시
+    "volume_force_overlay", // 캔들과 거래량 같은화면에 표시
+    "go_to_date", // 특정 날짜로 이동 기능 표시
+    "header_compare", // 비교 버튼 표시
   ],
   enabled_features: [
-    "keep_left_toolbar_visible_on_small_screens",
-    "left_toolbar",
+    "charting_library_debug_mode", // 차트 라이브러리 디버그 모드
   ],
   favorites: {
-    intervals: ["1", "5", "15", "30", "1H", "4H", "1D"],
+    intervals: ["1", "5", "15", "30", "60", "1D"],
   },
-}
+  time_frames: [
+    { text: "30D", resolution: "30D", description: "30날" },
+    { text: "5D", resolution: "5D", description: "5날" },
+    { text: "1D", resolution: "1D", description: "1날" },
+  ],
+};
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 99%;
+  z-index: 11113;
+`;
+
+const ChartContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: ${(props) => props.display};
+`;

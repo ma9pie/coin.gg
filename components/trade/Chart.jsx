@@ -1,16 +1,23 @@
-import React from "react";
+import styled from "@emotion/styled";
 import dynamic from "next/dynamic";
+import React from "react";
 
 const Tvchart = dynamic(() => import("@/components/tvchart"), {
-  loading: () => <p>Loading ...</p>,
   ssr: false,
 });
 
-function Chart({ symbol, theme }) {
+function Chart(props) {
   return (
-    <div style={{ width: "900px", height: "600px", margin: "50px" }}>
-      <Tvchart symbol={symbol} theme={theme}></Tvchart>
-    </div>
+    <Wrapper>
+      <Tvchart {...props}></Tvchart>
+    </Wrapper>
   );
 }
 export default React.memo(Chart);
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--divider);
+  overflow: "hidden";
+`;
