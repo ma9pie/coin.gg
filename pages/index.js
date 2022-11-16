@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export default function Home() {
   return (
@@ -6,5 +6,5 @@ export default function Home() {
       <div>Home Page2</div>
       <div>{process.env.NEXT_PUBLIC_MODE}</div>
     </div>
-  )
+  );
 }

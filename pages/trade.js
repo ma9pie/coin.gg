@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Chart from "@/components/trade/Chart";
 import styled from "@emotion/styled";
+import React, { useEffect, useState } from "react";
+import Chart from "@/components/trade/Chart";
+
 function Trade() {
   return (
     <Wrapper>

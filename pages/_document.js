@@ -1,4 +1,4 @@
-import { Html, Head, Main, NextScript } from "next/document";
+import { Head, Html, Main, NextScript } from "next/document";
 
 function Document() {
   return (
@@ -10,7 +10,6 @@ function Document() {
         />
 
         {/* 아이콘 생성 사이트 주소 - https://favicomatic.com */}
-
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -110,6 +109,34 @@ function Document() {
           href="icons/favicon-128.png"
           sizes="128x128"
         />
+        {/* 구글 애널리틱스 */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
+        />
+        <script
+          id="google-analytics"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+        {/* 다크모드 시 화면 깜빡임 제거 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              const theme = localStorage.getItem("theme")
+              document.documentElement.setAttribute("data-theme", theme);
+            `,
+          }}
+        ></script>
       </Head>
       <body>
         <Main />
