@@ -11,30 +11,28 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/core": "^7.20.2",
     "@emotion/css": "^11.9.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "axios": "^0.27.2",
-    "bootstrap-icons": "^1.8.2",
-    "fs": "^0.0.1-security",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "lodash.clonedeep": "^4.5.0",
     "moment": "^2.29.3",
-    "net": "^1.0.2",
     "next": "12.1.6",
-    "next-build-id": "^3.0.0",
-    "next-i18next": "^11.0.0",
+    "next-i18next": "^12.1.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "request-promise": "^4.2.6",
-    "sass": "^1.51.0",
-    "socket.io-client": "^4.5.0",
-    "styled-components": "^5.3.5",
-    "tls": "^0.0.1"
+    "react-modal": "^3.16.1",
+    "react-virtualized-auto-sizer": "^1.0.7",
+    "recoil": "^0.7.6",
+    "reconnecting-websocket": "^4.4.0",
+    "sass": "^1.51.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.17.10",
+    "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "eslint": "8.15.0",
     "eslint-config-next": "12.1.6"
   }
