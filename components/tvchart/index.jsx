@@ -14,6 +14,7 @@ function Tvchart(props) {
   let overrides = { ...customOverrides };
   const ref = useRef();
 
+  const [isLoadStudy, setIsLoadStudy] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // 차트 생성
@@ -33,6 +34,7 @@ function Tvchart(props) {
       user_id: props.userId,
       fullscreen: props.fullscreen,
       autosize: props.autosize,
+      auto_save_delay: props.auto_save_delay,
       theme: props.theme,
       studies_overrides: props.studies_overrides,
       drawings_access: props.drawings_access,
@@ -48,12 +50,18 @@ function Tvchart(props) {
   // 심볼 변경
   useEffect(() => {
     if (!tvWidget) return;
-    if (props.symbol) {
-      tvWidget.onChartReady(() => {
+
+    tvWidget.onChartReady(() => {
+      if (props.symbol) {
         tvWidget.activeChart().setSymbol(props.symbol);
-      });
-    }
-  }, [props.symbol]);
+        // chart load event
+        if (!isLoadStudy) {
+          loadChart();
+          setIsLoadStudy(true);
+        }
+      }
+    });
+  }, [props.symbol, loadChart]);
 
   // 테마 변경
   useEffect(() => {
@@ -65,7 +73,7 @@ function Tvchart(props) {
         });
       }
     });
-  }, []);
+  }, [props.theme]);
 
   // 차트 로딩
   useEffect(() => {
@@ -74,6 +82,70 @@ function Tvchart(props) {
       setIsLoading(false);
     });
   }, []);
+
+  // 마운트시 실행
+  useEffect(() => {
+    if (!tvWidget) return;
+    tvWidget.onChartReady(() => {
+      // chart auto save
+      tvWidget.subscribe("onAutoSaveNeeded", () => {
+        saveChart();
+      });
+      // chart wheel event
+      tvWidget
+        .activeChart()
+        .getTimeScale()
+        .barSpacingChanged()
+        .subscribe(null, () => {
+          saveChart();
+        });
+      // chart drag event
+      tvWidget
+        .activeChart()
+        .getTimeScale()
+        .rightOffsetChanged()
+        .subscribe(null, () => {
+          saveChart();
+        });
+
+      setView();
+      setIsLoading(false);
+    });
+  }, []);
+
+  // 차트 저장
+  const saveChart = () => {
+    tvWidget.save((data) => {
+      localStorage.setItem("tradingviewStudyTemplate", JSON.stringify(data));
+    });
+  };
+
+  // 차트 로드
+  const loadChart = () => {
+    let savedTemplate = JSON.parse(
+      localStorage.getItem("tradingviewStudyTemplate")
+    );
+    if (savedTemplate) {
+      savedTemplate.charts[0].panes[0].sources[0].state.symbol = props.symbol;
+      savedTemplate.charts[0].panes[0].sources[0].state.shortName =
+        props.symbol;
+      tvWidget.load(savedTemplate);
+    }
+  };
+
+  // view 설정
+  const setView = () => {
+    tvWidget
+      .activeChart()
+      .onDataLoaded()
+      .subscribe(
+        null,
+        () => {
+          tvWidget.activeChart().getTimeScale()._timeScale._rightOffset = 5;
+        },
+        true
+      );
+  };
 
   return (
     <Wrapper>
@@ -95,11 +167,12 @@ Tvchart.defaultProps = {
   libraryPath: "/static/charting_library/",
   chartsStorageUrl: "https://saveload.tradingview.com",
   chartsStorageApiVersion: "1.1",
-  clientId: "cashierest.com",
+  clientId: "coin.gg",
   userId: "public_user_id",
   timezone: "Asia/Seoul",
   fullscreen: false,
   autosize: true,
+  auto_save_delay: 1,
   studies_overrides: {
     "volume.volume.color.0": "#88b0e1",
     "volume.volume.color.1": "#e3a498",
