@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
 
-  border: 3px solid #1261c4;
+  border: 3px solid var(--candle_down_color);
   border-radius: 50%;
   border-top-color: transparent;
   animation: spin 1s linear infinite;

@@ -40,10 +40,10 @@ a {
   --icon2: #727988;
 
   // 매수&매도
-  --buyBtn: #c84a31;
-  --sellBtn: #1261c4;
-  --buyBg: #e3a498;
-  --sellBg: #88b0e1;
+  --candle_up_color: #c84a31;
+  --candle_down_color: #1261c4;
+  --candle_up_bg: #e3a498;
+  --candle_down_bg: #88b0e1;
 }
 
 /* 다크모드 */
@@ -65,4 +65,22 @@ a {
   --divider: #3b3b3b;
   --icon1: #717988;
   --icon2: #727988;
+}
+
+/* react-modal 관련 */
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--after-open {
+  overflow: visible !important;
 }
