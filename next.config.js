@@ -15,7 +15,7 @@ const nextConfig = {
       },
     ];
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   i18n,
 
   images: {

@@ -18,6 +18,5 @@ export default React.memo(Chart);
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid var(--divider);
   overflow: "hidden";
 `;

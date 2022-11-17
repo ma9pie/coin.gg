@@ -19,9 +19,9 @@ const Wrapper = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
 
-  border: 4px solid var(--disabledMainBtn);
+  border: 3px solid #1261c4;
   border-radius: 50%;
-  border-top-color: var(--primaryColor);
+  border-top-color: transparent;
   animation: spin 1s linear infinite;
 
   @keyframes spin {
