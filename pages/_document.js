@@ -4,11 +4,6 @@ function Document() {
   return (
     <Html>
       <Head>
-        <meta
-          name="description"
-          content="가상 자산들의 실시간 정보를 볼 수 있는 coin.gg입니다."
-        />
-
         {/* 아이콘 생성 사이트 주소 - https://favicomatic.com */}
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
