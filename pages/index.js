@@ -1,4 +1,6 @@
+import styled from "@emotion/styled";
 import React from "react";
+import CommonLayout from "@/layouts/CommonLayout";
 
 export default function Home() {
   return (
@@ -8,3 +10,9 @@ export default function Home() {
     </div>
   );
 }
+
+Home.getLayout = function getLayout(page) {
+  return <CommonLayout>{page}</CommonLayout>;
+};
+
+const Wrapper = styled.div``;

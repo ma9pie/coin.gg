@@ -1,5 +1,10 @@
 const MarketUtils = () => {};
 
+/**
+ * 원화 마켓 주문 가격 단위
+ * @param {Number} price 원화 가격
+ * @returns 
+ */
 MarketUtils.krwMarketOrderPriceUnit = (price) => {
   if (price >= 2000000) {
   } else if (price >= 1000000) {
