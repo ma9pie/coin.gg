@@ -19,7 +19,7 @@ const Banner = () => {
           disableOnInteraction: false,
         }}
       >
-        <BannerBox backgroundColor="var(--blue900)">
+        <BannerBox background="linear-gradient(45deg, var(--blue700), var(--blue900))">
           <Content>
             <TextBox>
               <Title>트레이딩뷰 차트</Title>
@@ -31,7 +31,7 @@ const Banner = () => {
             </ImageBox>
           </Content>
         </BannerBox>
-        <BannerBox backgroundColor="var(--blue400)">
+        <BannerBox background="linear-gradient(45deg, var(--blue300), var(--blue500))">
           <Content>
             <TextBox>
               <Title>생체인증 로그인</Title>
@@ -47,7 +47,7 @@ const Banner = () => {
             </ImageBox>
           </Content>
         </BannerBox>
-        <BannerBox backgroundColor="var(--blue800)">
+        <BannerBox background="linear-gradient(45deg, var(--blue600), var(--blue800))">
           <Content>
             <TextBox>
               <Title>인증 서비스</Title>
@@ -63,7 +63,7 @@ const Banner = () => {
             </ImageBox>
           </Content>
         </BannerBox>
-        <BannerBox backgroundColor="var(--blue700)">
+        <BannerBox background="linear-gradient(45deg, var(--blue500), var(--blue700))">
           <Content>
             <TextBox>
               <Title>피싱 메일 조심</Title>
@@ -82,7 +82,7 @@ const Banner = () => {
             </ImageBox>
           </Content>
         </BannerBox>
-        <BannerBox backgroundColor="var(--blue500)">
+        <BannerBox background="linear-gradient(45deg, var(--blue300), var(--blue600))">
           <Content>
             <TextBox>
               <Title>암호화폐 뉴스 서비스</Title>
@@ -109,15 +109,15 @@ const BannerBox = styled.div`
   justify-content: center;
   width: 100%;
   height: 256px;
-  background-color: ${(props) => props.backgroundColor};
+  background: ${(props) => props.background};
   & * {
-    background-color: inherit;
+    background: transparent;
   }
 `;
 const Content = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 500px;
+  min-width: 500px;
 `;
 const Title = styled.strong`
   font: var(--headline32);
