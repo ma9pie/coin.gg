@@ -10,7 +10,7 @@ function CommonLayout(props) {
       <Head></Head>
       <Header></Header>
       <Body>{props.children}</Body>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </Container>
   );
 }

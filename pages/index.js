@@ -3,12 +3,7 @@ import React from "react";
 import CommonLayout from "@/layouts/CommonLayout";
 
 export default function Home() {
-  return (
-    <div>
-      <div>Home Page2</div>
-      <div>{process.env.NEXT_PUBLIC_MODE}</div>
-    </div>
-  );
+  return <Wrapper>index</Wrapper>;
 }
 
 Home.getLayout = function getLayout(page) {

@@ -3,39 +3,28 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Theme from "@/components/common/Theme";
-import brandLogo from "@/images/brandLogo.svg";
+import logo from "@/images/logo.svg";
 
 const Header = () => {
   return (
     <Wrapper>
-      <Link href="/">
-        <a>
-          <LogoContainer>
-            <Image src={brandLogo} alt="logo" width={30} height={30}></Image>
-            <LogoText>KIM JUN YOUNG</LogoText>
-          </LogoContainer>
-        </a>
-      </Link>
-
       <GnbContainer>
-        <Link href="/about">
+        <Link href="/">
           <a>
-            <LinkBox>About</LinkBox>
+            <LogoContainer>
+              <Image src={logo} alt="logo" width={30} height={30}></Image>
+              <LogoText>COIN.GG</LogoText>
+            </LogoContainer>
           </a>
         </Link>
-        <Link href="/skills">
+        <Link href="/">
           <a>
-            <LinkBox>Skills</LinkBox>
+            <LinkBox>홈</LinkBox>
           </a>
         </Link>
-        <Link href="/projects">
+        <Link href="/trade">
           <a>
-            <LinkBox>Projects</LinkBox>
-          </a>
-        </Link>
-        <Link href="/resume">
-          <a>
-            <LinkBox>Resume</LinkBox>
+            <LinkBox>거래소</LinkBox>
           </a>
         </Link>
       </GnbContainer>
@@ -46,28 +35,35 @@ const Header = () => {
 
 export default Header;
 
-const Wrapper = styled.div`
+const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-width: 360px;
   height: 60px;
   padding: 0px 20px;
+  background-color: var(--blue600);
+  & * {
+    background-color: inherit;
+  }
 `;
 const GnbContainer = styled.nav`
   display: flex;
   align-items: center;
 `;
 const LinkBox = styled.div`
-  padding: 0px 4px;
+  padding: 0px 16px;
+  color: white;
   cursor: pointer;
 `;
 
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 80px;
 `;
 const LogoText = styled.h1`
   font-size: 16px;
   margin-left: 4px;
+  color: white;
 `;

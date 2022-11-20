@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import GoogleAnalyticsUtils from "@/utils/GoogleAnalyticsUtils";
 import WebSocket from "@/utils/WebSocketUtils";
 import Axios from "@/api/index";
-import "@/styles/styles.scss";
+import "@/styles/app.scss";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
