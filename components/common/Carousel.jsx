@@ -25,7 +25,7 @@ function Carousel(props) {
     } else if (props.tabNum < swiperRef.current.swiper.activeIndex) {
       handlePrev();
     }
-  }, [props.tabNum]);
+  }, [props.tabNum, handleNext, handlePrev]);
 
   return (
     <Wrapper {...props}>

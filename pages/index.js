@@ -7,7 +7,7 @@ import CommonLayout from "@/layouts/CommonLayout";
 export default function Home() {
   return (
     <Wrapper>
-      {/* <MainContent></MainContent> */}
+      <MainContent></MainContent>
       <Banner></Banner>
     </Wrapper>
   );
